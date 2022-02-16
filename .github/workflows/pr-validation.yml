@@ -1,0 +1,55 @@
+name: PR Validation
+on: [push, pull_request]
+
+jobs:
+  scalaFmt:
+    name: Check Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Cache SBT & ivy cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.ivy2/cache
+            ~/.sbt
+            ~/.cache/coursier/v1
+          key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}-${{ hashFiles('**/plugins.sbt') }}-${{ hashFiles('**/build.properties') }}
+      - name: Check formatting
+        run: sbt scalafmtCheckAll
+
+  test:
+    name: Compile and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Cache SBT & ivy cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.ivy2/cache
+            ~/.sbt
+            ~/.cache/coursier/v1
+          key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}-${{ hashFiles('**/plugins.sbt') }}-${{ hashFiles('**/build.properties') }}
+      - name: Compile and test
+        run: sbt test
+  merge:
+    name: Merge dependency update
+    if: github.actor == 'scala-steward' || github.actor == 'JannikArndt'
+    needs:
+      - scalaFmt
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge PR
+        uses: desbo/merge-pr-action@v0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ALLOWED_UPDATE: minor
+          MERGE_METHOD: squash
