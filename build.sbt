@@ -1,13 +1,27 @@
 lazy val root = (project in file("."))
   .settings(
-    name          := "scala-start",
-    organization  := "my-organization",
-    version       := "1.0.0",
-    scalaVersion  := "2.13.8",
-    scalacOptions := scalaCompilerOptions,
-    libraryDependencies ++= akkaDependencies ++ databaseDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies
+    name                 := "Passulo-Server",
+    normalizedName       := "passulo-server",
+    organization         := "com.passulo",
+    organizationName     := "Passulo",
+    organizationHomepage := Some(url("https://www.passulo.com")),
+    description          := "A server that can read Passulo tokens, verify signatures and store public keys",
+    scmInfo              := Some(ScmInfo(url("https://github.com/passulo/Passulo-Server"), "git@github.com:passulo/Passulo-Server.git")),
+    developers           := List(Developer("jannikarndt", "Jannik Arndt", "@jannikarndt", url("https://github.com/JannikArndt"))),
+    version              := "1.0.0",
+    scalaVersion         := "2.13.8",
+    scalacOptions        := scalaCompilerOptions,
+    libraryDependencies ++= pasetoDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
+    exportJars := true
   )
-  .enablePlugins(JavaAppPackaging, DockerPlugin)
+  .enablePlugins(JavaAppPackaging)
+
+lazy val pasetoDependencies = Seq(
+  "dev.paseto" % "jpaseto-api"           % "0.7.0",
+  "dev.paseto" % "jpaseto-impl"          % "0.7.0" % "runtime",
+  "dev.paseto" % "jpaseto-jackson"       % "0.7.0" % "runtime",
+  "dev.paseto" % "jpaseto-bouncy-castle" % "0.7.0"
+)
 
 val akkaVersion     = "2.6.18"
 val akkaHttpVersion = "10.2.8"
@@ -19,14 +33,6 @@ lazy val akkaDependencies = Seq(
   "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
   "com.typesafe.akka" %% "akka-http-testkit"        % akkaHttpVersion % Test,
   "ch.megard"         %% "akka-http-cors"           % "1.1.3"
-)
-lazy val databaseDependencies = Seq(
-  "org.postgresql"       % "postgresql"          % "42.3.3",
-  "com.h2database"       % "h2"                  % "2.1.210",
-  "com.typesafe.slick"  %% "slick"               % "3.3.3",
-  "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
-  "com.github.tminglei" %% "slick-pg"            % "0.20.2",
-  "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.2"
 )
 
 val circeVersion = "0.14.1"

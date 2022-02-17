@@ -1,0 +1,19 @@
+{
+    "applinks": {
+        "details": [
+            {
+                "appIDs": [
+                    "9MD9DV36EY.com.passulo.Passulo"
+                ],
+                "components": [
+                    {
+                        "/": "/app/*"
+                    },
+                    {
+                        "/": "/app/"
+                    }
+                ]
+            }
+        ]
+    }
+}

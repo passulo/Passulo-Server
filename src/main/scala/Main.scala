@@ -30,17 +30,10 @@ object Main extends StrictLogging {
 
   def main(args: Array[String]): Unit = {
     val rootBehavior = Behaviors.setup[Nothing] { context =>
-//      Spawn actors here, if you need them
-//      val userRegistryActor = context.spawn(UserRegistry(), "UserRegistryActor")
-//      context.watch(userRegistryActor)
-
-//      Initialize database
-      val database = new PostgresDatabase()
-      database.init
-      val logic = new Logic(database)(context.executionContext)
+      val logic = new Logic()(context.executionContext)
 
 //      Create routes
-      val routes: ServerRoutes = new ServerRoutes(logic, database)
+      val routes: ServerRoutes = new ServerRoutes(logic)
 
 //      Start server
       startHttpServer(routes.routes)(context.system)

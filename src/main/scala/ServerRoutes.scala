@@ -1,18 +1,13 @@
-import Model.{Request, Response}
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.model.StatusCodes.OK
+import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
+import akka.http.scaladsl.server.directives.ContentTypeResolver
 import akka.http.scaladsl.server.{Directives, ExceptionHandler, RejectionHandler, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import com.typesafe.scalalogging.*
-import io.circe.syntax.*
 
-import scala.util.{Failure, Success}
-
-class ServerRoutes(val logic: Logic, val database: Database) extends Directives {
+class ServerRoutes(val logic: Logic) extends Directives {
 
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport.*
-  import io.circe.generic.auto.*
 
   def routes: Route =
     handleRejections(rejectionHandler) {
@@ -20,22 +15,20 @@ class ServerRoutes(val logic: Logic, val database: Database) extends Directives 
         cors(CorsSettings.defaultSettings.withAllowGenericHttpRequests(true)) {
           pathEndOrSingleSlash {
             get {
-              onComplete(database.selectAll) {
-                case Success(value)     => complete(value.asJson)
-                case Failure(exception) => complete(s"Error: ${exception.getMessage}")
-              }
-            } ~
-              post {
-                entity(as[Request]) { request: Request =>
-                  onComplete(logic.process(request)) {
-                    case Success(Right(value)) => complete(OK, Response(value))
-                    case Success(Left(error))  => complete(StatusCodes.BadRequest, error)
-                    case Failure(exception) =>
-                      Logger("WebServer").warn(s"Request failed with exception: ${exception.getMessage}", exception)
-                      complete(StatusCodes.InternalServerError, "A technical error occurred.")
-                  }
+              parameters("code".as[String]) { code =>
+                logic.parseToken(code) match {
+                  case Left(error)   => complete(s"Error: ${error.toString}")
+                  case Right(claims) => complete(s"Found $claims")
                 }
+              } ~ pathEndOrSingleSlash {
+                complete("Welcome")
               }
+
+            }
+          } ~ pathPrefix(".well-known") {
+            path("apple-app-site-association") {
+              getFromResource("apple-app-site-association")(ContentTypeResolver(_ => ContentTypes.`application/json`))
+            }
           }
         }
       }
