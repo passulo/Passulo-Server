@@ -1,10 +1,12 @@
+package com.passulo.server
+
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import com.typesafe.scalalogging.StrictLogging
 
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.*
 import scala.util.{Failure, Success}
 
 object Main extends StrictLogging {

@@ -1,0 +1,29 @@
+@import html.styles
+@import com.passulo.server.PassInfo
+
+@(passInfo: PassInfo)
+
+<!-- https://www.playframework.com/documentation/2.8.x/ScalaTemplates -->
+<html lang="en">
+    <head>
+        @styles()
+    <title>Passulo</title>
+    </head>
+
+    <body>
+
+        <h1>@passInfo.fullName</h1>
+        <table>
+            <tr><td>Name</td><td>@passInfo.fullName</td></tr>
+            <tr><td>Vorname</td><td>@passInfo.firstName</td></tr>
+            <tr><td>Mittelname</td><td>@passInfo.middleName</td></tr>
+            <tr><td>Nachname</td><td>@passInfo.lastName</td></tr>
+            <tr><td>Gender</td><td>@passInfo.gender</td></tr>
+            <tr><td>Mitgliedsnummer</td><td>@passInfo.number</td></tr>
+            <tr><td>Verband</td><td>@passInfo.association</td></tr>
+            <tr><td>Firma</td><td>@passInfo.company</td></tr>
+            <tr><td>Gültig bis</td><td>@passInfo.validUntil.map(_.toString)</td></tr>
+        </table>
+
+    </body>
+</html>

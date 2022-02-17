@@ -12,9 +12,10 @@ lazy val root = (project in file("."))
     scalaVersion         := "2.13.8",
     scalacOptions        := scalaCompilerOptions,
     libraryDependencies ++= pasetoDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
-    exportJars := true
+    exportJars                := true,
+    TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
-  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val pasetoDependencies = Seq(
   "dev.paseto" % "jpaseto-api"           % "0.7.0",

@@ -1,3 +1,5 @@
+package com.passulo.server
+
 import io.circe.parser.*
 
 import java.nio.charset.StandardCharsets
@@ -11,7 +13,7 @@ class Logic()(implicit ec: ExecutionContext) {
     "44424" -> List("26e1e471a072328b06980e4b25fa126e43da27f619e1e20212c0f0c0b46d37e2")
   )
 
-  def parseToken(token: String): Either[Serializable, Map[String, String]] = {
+  def parseToken(token: String): Either[Serializable, PassInfo] = {
     val SIGNATURE_LENGTH = 64
     val parts            = token.split("\\.")
 
@@ -44,7 +46,7 @@ class Logic()(implicit ec: ExecutionContext) {
                      |keyid $keyId
                      |signature ${signatureBytes.mkString(" ")}
                      |""".stripMargin)
-          claims
+          PassInfo(claims)
         }
     }
   }

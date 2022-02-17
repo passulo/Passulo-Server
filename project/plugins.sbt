@@ -8,3 +8,6 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 // sbt> docker:publishLocal
 // sbt> docker:publish
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.8")
+
+// https://github.com/playframework/twirl#sbt-twirl
+addSbtPlugin("com.typesafe.sbt" % "sbt-twirl" % "1.5.1")
