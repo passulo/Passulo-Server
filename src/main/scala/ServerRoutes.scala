@@ -29,6 +29,8 @@ class ServerRoutes(val logic: Logic) extends Directives {
             path("apple-app-site-association") {
               getFromResource("apple-app-site-association")(ContentTypeResolver(_ => ContentTypes.`application/json`))
             }
+          } ~ path("favicon.ico") {
+            getFromResource("favicon.ico")
           }
         }
       }
