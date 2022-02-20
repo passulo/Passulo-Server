@@ -6,7 +6,6 @@ import java.security.interfaces.EdECPublicKey
 import java.security.spec.X509EncodedKeySpec
 import java.security.{KeyFactory, Signature}
 import java.util.Base64
-import scala.concurrent.ExecutionContext
 import scala.util.Try
 
 class Logic() {
