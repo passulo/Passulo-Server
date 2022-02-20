@@ -32,7 +32,7 @@ object Main extends StrictLogging {
 
   def main(args: Array[String]): Unit = {
     val rootBehavior = Behaviors.setup[Nothing] { context =>
-      val logic = new Logic()(context.executionContext)
+      val logic = new Logic()
 
 //      Create routes
       val routes: ServerRoutes = new ServerRoutes(logic)

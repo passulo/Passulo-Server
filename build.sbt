@@ -11,17 +11,14 @@ lazy val root = (project in file("."))
     version              := "1.0.0",
     scalaVersion         := "2.13.8",
     scalacOptions        := scalaCompilerOptions,
-    libraryDependencies ++= pasetoDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
+    libraryDependencies ++= tokenDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
     exportJars                := true,
     TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
-lazy val pasetoDependencies = Seq(
-  "dev.paseto" % "jpaseto-api"           % "0.7.0",
-  "dev.paseto" % "jpaseto-impl"          % "0.7.0" % "runtime",
-  "dev.paseto" % "jpaseto-jackson"       % "0.7.0" % "runtime",
-  "dev.paseto" % "jpaseto-bouncy-castle" % "0.7.0"
+lazy val tokenDependencies = Seq(
+  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8"
 )
 
 val akkaVersion     = "2.6.18"
@@ -62,7 +59,7 @@ lazy val loggingDependencies = Seq(
 )
 
 lazy val scalaCompilerOptions = Seq(
-  "-target:11",
+  "-target:17",
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-encoding",
   "utf-8",         // Specify character encoding used by source files.

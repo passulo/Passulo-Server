@@ -1,6 +1,8 @@
 package com.passulo.server
+import com.passulo.token.Token
+
 import java.nio.charset.StandardCharsets
-import java.time.LocalDate
+import java.time.{Instant, LocalDate, ZoneOffset}
 
 case class PassInfo(
     id: String,
@@ -38,19 +40,20 @@ case class PassInfo(
 }
 
 object PassInfo {
-  def apply(claims: Map[String, String]): PassInfo = new PassInfo(
-    id = "someid",
-    firstName = claims.getOrElse("fna", ""),
-    middleName = claims.getOrElse("mna", ""),
-    lastName = claims.getOrElse("lna", ""),
-    gender = claims.getOrElse("gnd", ""),
-    association = claims.getOrElse("asn", ""),
-    number = claims.getOrElse("num", ""),
-    status = claims.getOrElse("sts", ""),
-    company = claims.getOrElse("com", ""),
-    email = claims.getOrElse("eml", ""),
-    telephone = claims.getOrElse("tel", ""),
-    validUntil = claims.get("vut").map(LocalDate.parse)
-  )
+  def from(token: Token) =
+    new PassInfo(
+      id = token.id,
+      firstName = token.firstName,
+      middleName = token.middleName,
+      lastName = token.lastName,
+      gender = token.gender,
+      association = token.association,
+      number = token.number,
+      status = token.status,
+      company = token.company,
+      email = token.email,
+      telephone = token.telephone,
+      validUntil = token.validUntil.map(vut => LocalDate.ofInstant(Instant.ofEpochSecond(vut.seconds), ZoneOffset.UTC))
+    )
 
 }
