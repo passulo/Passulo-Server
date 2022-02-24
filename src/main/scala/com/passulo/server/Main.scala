@@ -42,6 +42,7 @@ object Main extends StrictLogging {
 
       Behaviors.empty
     }
+    logger.info("Starting ActorSystem")
 
     val _ = ActorSystem[Nothing](rootBehavior, "AkkaHttpServer")
   }

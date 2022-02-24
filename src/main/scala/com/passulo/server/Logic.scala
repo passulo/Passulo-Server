@@ -1,6 +1,7 @@
 package com.passulo.server
 
 import com.passulo.token.Token
+import com.typesafe.scalalogging.StrictLogging
 
 import java.security.interfaces.EdECPublicKey
 import java.security.spec.X509EncodedKeySpec
@@ -8,15 +9,25 @@ import java.security.{KeyFactory, Signature}
 import java.util.Base64
 import scala.util.Try
 
-class Logic() {
+class Logic() extends StrictLogging {
 
   val knownKeys = Map(
     "hhatworkv1" -> publicKeyFrom("MCowBQYDK2VwAyEAJuHkcaByMosGmA5LJfoSbkPaJ/YZ4eICEsDwwLRtN+I=")
   )
-  def parseToken(token: String): Either[String, PassInfo] = for {
-    tokenDecoded <- Try(Base64.getUrlDecoder.decode(token)).toOption.toRight("Cannot decode token")
-    tokenProto   <- Try(Token.parseFrom(tokenDecoded)).toOption.toRight("Cannot parse token")
-  } yield PassInfo.from(tokenProto)
+
+  def parseToken(token: String, version: String): Either[String, PassInfo] =
+    version match {
+      case "1" => parseTokenV1(token)
+      case other =>
+        logger.warn(s"Called with unsupported version $other")
+        parseTokenV1(token).fold(error => Left(s"Unknown Version $other: $error"), x => Right(x))
+    }
+
+  def parseTokenV1(token: String): Either[String, PassInfo] =
+    for {
+      tokenDecoded <- Try(Base64.getUrlDecoder.decode(token)).toOption.toRight("Cannot decode token")
+      tokenProto   <- Try(Token.parseFrom(tokenDecoded)).toOption.toRight("Cannot parse token")
+    } yield PassInfo.from(tokenProto)
 
   def verifyToken(token: String, signatureBase64: String, keyid: String): Either[String, Boolean] =
     for {

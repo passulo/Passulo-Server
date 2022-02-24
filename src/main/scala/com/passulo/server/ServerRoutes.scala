@@ -23,8 +23,8 @@ class ServerRoutes(val logic: Logic) extends Directives {
         cors(CorsSettings.defaultSettings.withAllowGenericHttpRequests(true)) {
           pathEndOrSingleSlash {
             get {
-              parameters("code", "sig", "kid") { (code, signature, keyid) =>
-                logic.parseToken(code) match {
+              parameters("code", "v", "sig", "kid") { (code, version, signature, keyid) =>
+                logic.parseToken(code, version) match {
                   case Left(errorMessage) => complete(html.error(errorMessage))
                   case Right(passInfo) =>
                     logic.verifyToken(code, signature, keyid) match {
