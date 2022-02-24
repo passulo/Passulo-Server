@@ -18,8 +18,9 @@ class KeysSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with Op
       keys.edECPublicKeyForId("passuloTest").value.getPoint.getY shouldBe new BigInteger(
         "44424592913184116376246194238513212163723781984295331222540911601851264459046"
       )
-      keys.allowedAssociationsForKeyId("passuloTest").size shouldBe 1
-      keys.allowedAssociationsForKeyId("passuloTest").head shouldBe "Passulo"
+      keys.allowedAssociationsForKeyId("passuloTest") shouldBe defined
+      keys.allowedAssociationsForKeyId("passuloTest").value.size shouldBe 1
+      keys.allowedAssociationsForKeyId("passuloTest").value.head shouldBe "Passulo"
 
     }
   }
