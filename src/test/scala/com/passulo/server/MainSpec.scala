@@ -18,7 +18,7 @@ class MainSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with Op
   "Server" should {
     "be reachable" in {
       Get("/") ~> routes ~> check {
-        response.status shouldEqual StatusCodes.OK
+        status shouldEqual StatusCodes.OK
       }
     }
 
@@ -26,14 +26,6 @@ class MainSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with Op
       Get("/.well-known/apple-app-site-association") ~> routes ~> check {
         contentType shouldBe ContentTypes.`application/json`
         entityAs[Json].toString() should include("applinks")
-      }
-    }
-
-    "decode token" in {
-      Get(
-        "/?code=CghsMU9GVGp1QhIESm9obhoCRi4iCUFwcGxlc2VlZCgCMgYxMjM0NTY6BlBsYXRpbkIQRGV1dHNjaGUgVGVsZWtvbUoWai5hcHBsZXNlZWRAdGVsZWtvbS5kZVIQKzQ5IDQwIDEyMzQ1My0xMloMSGFtYnVyZ0BXb3JrYgYI_5nDnQZqBgj_q4DkAw==&v=1&sig=kNjbFxpdDjqPS8Q6rfluvG2NCIxuKhfRcw4RUGtoN4w56Itv8KTSznkpSYysXDk1N5oK0Ru6Vy02JrDR98owAQ==&kid=hhatworkv1"
-      ) ~> routes ~> check {
-        response.status shouldEqual StatusCodes.OK
       }
     }
   }

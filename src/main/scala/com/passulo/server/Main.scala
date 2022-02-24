@@ -34,10 +34,14 @@ object Main extends StrictLogging {
     val rootBehavior = Behaviors.setup[Nothing] { context =>
       val logic = new Logic()
 
-//      Create routes
+      // Create routes
       val routes: ServerRoutes = new ServerRoutes(logic)
 
-//      Start server
+      // Load Keys
+      val keys = Keys.shared.allKeys
+      logger.info(s"Loaded ${keys.size} keys. Known key-ids: ${keys.map(_.keyId).mkString(", ")}")
+
+      // Start server
       startHttpServer(routes.routes)(context.system)
 
       Behaviors.empty

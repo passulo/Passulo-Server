@@ -11,14 +11,15 @@ lazy val root = (project in file("."))
     version              := "1.0.0",
     scalaVersion         := "2.13.8",
     scalacOptions        := scalaCompilerOptions,
-    libraryDependencies ++= tokenDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
+    libraryDependencies ++= applicationDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
     exportJars                := true,
     TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
-lazy val tokenDependencies = Seq(
-  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.8"
+lazy val applicationDependencies = Seq(
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.8",
+  "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
 val akkaVersion     = "2.6.18"

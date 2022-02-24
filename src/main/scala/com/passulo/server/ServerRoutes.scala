@@ -8,6 +8,8 @@ import akka.http.scaladsl.server.{Directives, ExceptionHandler, RejectionHandler
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import com.typesafe.scalalogging.*
+import io.circe.generic.auto.*
+import io.circe.syntax.*
 import play.twirl.api.Html
 
 class ServerRoutes(val logic: Logic) extends Directives {
@@ -25,17 +27,16 @@ class ServerRoutes(val logic: Logic) extends Directives {
             get {
               parameters("code", "v", "sig", "kid") { (code, version, signature, keyid) =>
                 logic.parseToken(code, version) match {
-                  case Left(errorMessage) => complete(html.error(errorMessage))
+                  case Left(errorMessage) => complete(html.error(errorMessage.message))
                   case Right(passInfo) =>
-                    logic.verifyToken(code, signature, keyid) match {
-                      case Left(error)   => complete(html.index(passInfo, valid = false, Some(error)))
-                      case Right(result) => complete(html.index(passInfo, result))
+                    logic.verifyToken(code, signature, keyid, passInfo.association) match {
+                      case Right(_)    => complete(html.index(passInfo, valid = true))
+                      case Left(error) => complete(html.index(passInfo, valid = false, Some(error.message)))
                     }
                 }
               } ~ pathEndOrSingleSlash {
                 complete("Welcome")
               }
-
             }
           } ~ pathPrefix(".well-known") {
             path("apple-app-site-association") {
@@ -45,6 +46,23 @@ class ServerRoutes(val logic: Logic) extends Directives {
             getFromResource("favicon.ico")
           } ~ path("assets" / Remaining) { file =>
             getFromResource("assets/" + file)
+          } ~ pathPrefix("v1") {
+            path("key" / Segment) { id: String =>
+              Keys.shared.publicKeyForId(id) match {
+                case Some(key) => complete(key.asJson)
+                case None      => complete(StatusCodes.NotFound)
+              }
+            } ~
+              path("keys") {
+                complete(Keys.shared.allKeys.asJson)
+              } ~
+              path("allowed-associations-for-key-id" / Segment) { keyId: String =>
+                Keys.shared.allowedAssociationsForKeyId(keyId) match {
+                  case Some(names) => complete(names.asJson)
+                  case None        => complete(StatusCodes.NotFound, s"No entry for key $keyId found!")
+                }
+
+              }
           }
         }
       }
