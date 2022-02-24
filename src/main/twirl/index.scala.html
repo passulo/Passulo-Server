@@ -1,8 +1,7 @@
-@import html.styles
 @import com.passulo.server.PassInfo
-@import html.verified_icon
+@import html.{styles, verified_icon}
 
-@(passInfo: PassInfo, valid: Boolean, error: Option[String] = None)
+@(passInfo: PassInfo, valid: Boolean, error: Option[String] = None, code: String)
 
 <!-- https://www.playframework.com/documentation/2.8.x/ScalaTemplates -->
 <html lang="en">
@@ -10,28 +9,47 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Passulo</title>
+        <title>@passInfo.fullName — Passulo</title>
         @styles()
         </head>
 
     <body>
+        <div class="modal modal-tour position-static d-block bg-secondary py-5 lh-lg" tabindex="-1" role="dialog" id="modalTour">
+            <div class="modal-dialog" role="document">
+                @for(msg <- error) {
+                    <div class="alert alert-danger" role="alert">@msg</div>
+                }
+                <div class="modal-content rounded-6 shadow">
+                    <div class="modal-body p-5">
+                        <h2 class="fw-bold mb-0">@passInfo.fullName</h2>
 
-        @for(msg <- error) {
-          <blockquote>@msg</blockquote>
-        }
-
-        <h1>@passInfo.fullName</h1>
-        <table>
-            <tr><td>Name</td><td>@passInfo.fullName</td></tr>
-            <tr><td>Vorname</td><td>@passInfo.firstName</td></tr>
-            <tr><td>Mittelname</td><td>@passInfo.middleName</td></tr>
-            <tr><td>Nachname</td><td>@passInfo.lastName</td></tr>
-            <tr><td>Gender</td><td>@passInfo.gender</td></tr>
-            <tr><td>Mitgliedsnummer</td><td>@passInfo.number</td></tr>
-            <tr><td>Verband</td><td>@passInfo.association</td></tr>
-            <tr><td>Firma</td><td>@passInfo.company</td></tr>
-            <tr><td>Gültig bis</td><td>@passInfo.validUntil.map(_.toString)</td></tr>
-            <tr style="background-color: @{if (valid) "lawngreen" else "palevioletred"}"><td>Signatur</td><td>@verified_icon(valid)</td></tr>
-        </table>
+                        <ul class="d-grid gap-4 my-4 list-unstyled">
+                            <li class="d-flex gap-4">
+                                <address>
+                                    <strong>@passInfo.company</strong><br>
+                                    <a href="mailto:@passInfo.email">@passInfo.email</a>
+                                    <br>
+                                    <a href="tel:@passInfo.telephone">@passInfo.telephone</a>
+                                </address>
+                            </li>
+                            <li class="gap-4">
+                                <div>
+                                    Mitglied @passInfo.number<br>
+                                    @passInfo.association<br><br>
+                                </div>
+                                <div class="fw-light">
+                                    Gültig seit @passInfo.memberSince.map(_.toString)<br>
+                                    Gültig bis @passInfo.validUntil.map(_.toString)
+                                </div>
+                            </li>
+                            <li>
+                                Signatur @verified_icon(valid)
+                            </li>
+                        </ul>
+                        <a href="/v1/vcard?v=1&code=@{code}" download="@{passInfo.filename}.vcard" class="btn btn-lg btn-primary mt-1 w-100">Kontakt Speichern</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

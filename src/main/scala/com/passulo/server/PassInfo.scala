@@ -17,7 +17,8 @@ case class PassInfo(
     company: String,
     email: String,
     telephone: String,
-    validUntil: Option[LocalDate]
+    validUntil: Option[LocalDate],
+    memberSince: Option[LocalDate]
 ) {
   def fullName: String =
     (pronoun, NoneIfEmpty(firstName), NoneIfEmpty(middleName), NoneIfEmpty(lastName)) match {
@@ -36,7 +37,7 @@ case class PassInfo(
       case _   => None
     }
 
-  def filename: String                            = java.net.URLEncoder.encode(s"$number-$fullName", StandardCharsets.UTF_8)
+  def filename: String                            = java.net.URLEncoder.encode(s"$fullName", StandardCharsets.UTF_8)
   def NoneIfEmpty(string: String): Option[String] = if (string.isBlank) None else Some(string)
 }
 
@@ -59,7 +60,8 @@ object PassInfo {
       company = token.company,
       email = token.email,
       telephone = token.telephone,
-      validUntil = token.validUntil.map(vut => LocalDate.ofInstant(Instant.ofEpochSecond(vut.seconds), ZoneOffset.UTC))
+      validUntil = token.validUntil.map(vut => LocalDate.ofInstant(Instant.ofEpochSecond(vut.seconds), ZoneOffset.UTC)),
+      memberSince = token.memberSince.map(vut => LocalDate.ofInstant(Instant.ofEpochSecond(vut.seconds), ZoneOffset.UTC))
     )
 
 }

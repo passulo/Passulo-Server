@@ -1,8 +1,7 @@
 package com.passulo.server
-
 import akka.http.scaladsl.marshalling.{Marshaller, ToEntityMarshaller}
 import akka.http.scaladsl.model.MediaTypes.`text/html`
-import akka.http.scaladsl.model.{ContentTypes, MediaType, StatusCodes}
+import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.directives.ContentTypeResolver
 import akka.http.scaladsl.server.{Directives, ExceptionHandler, RejectionHandler, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
@@ -11,6 +10,8 @@ import com.typesafe.scalalogging.*
 import io.circe.generic.auto.*
 import io.circe.syntax.*
 import play.twirl.api.Html
+
+import java.nio.charset.StandardCharsets
 
 class ServerRoutes(val logic: Logic) extends Directives {
 
@@ -30,8 +31,8 @@ class ServerRoutes(val logic: Logic) extends Directives {
                   case Left(errorMessage) => complete(html.error(errorMessage.message))
                   case Right(passInfo) =>
                     logic.verifyToken(code, signature, keyid, passInfo.association) match {
-                      case Right(_)    => complete(html.index(passInfo, valid = true))
-                      case Left(error) => complete(html.index(passInfo, valid = false, Some(error.message)))
+                      case Right(_)    => complete(html.index(passInfo, valid = true, None, code))
+                      case Left(error) => complete(html.index(passInfo, valid = false, Some(error.message), code))
                     }
                 }
               } ~ pathEndOrSingleSlash {
@@ -61,7 +62,20 @@ class ServerRoutes(val logic: Logic) extends Directives {
                   case Some(names) => complete(names.asJson)
                   case None        => complete(StatusCodes.NotFound, s"No entry for key $keyId found!")
                 }
-
+              } ~
+              path("vcard") {
+                parameters("code", "v") { (code, version) =>
+                  logic.parseToken(code, version) match {
+                    case Right(passInfo) =>
+                      val vcard = VCardCreator.createVCard(passInfo)
+                      complete(
+                        HttpResponse(entity =
+                          HttpEntity(MediaTypes.`text/x-vcard`.toContentType(HttpCharsets.`UTF-8`), vcard.getBytes(StandardCharsets.UTF_8))
+                        )
+                      )
+                    case Left(errorMessage) => complete(html.error(errorMessage.message))
+                  }
+                }
               }
           }
         }
