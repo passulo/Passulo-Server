@@ -3,9 +3,22 @@
 * reads Passulo tokens and displays them for browsers
 * stores public keys
 * validates token-signatures
+* provides an API for programmatic access
 
 ## Available Routes
 
-* `/.well-known/apple-app-site-association` returns the association to the Passulo iOS App
 * `/` says hello
-* `/?code=<base64 encoded token>&sig=<base64 encoded signature>&kid=<keyid>` parses and verifies the token
+* `/.well-known/apple-app-site-association` returns the association to the Passulo iOS App
+* `/?code=<base64 encoded token>&v=1&sig=<base64 encoded signature>&kid=<keyid>` parses and verifies the token
+* `/v1/` provides a json-api for programmatic access:
+  * `/v1/keys` lists all available keys
+  * `/v1/key/<public-key-id>` returns the Public Key (base64 encoded) for the given KeyID
+  * `/v1/allowed-associations-for-key-id/<public-key-id>` returns names of the associations this key is allowed to sign
+
+## Public Deployment
+
+For the public Passulo instance, this server is deployed at [app.passulo.com](https://app.passulo.com).
+
+## Docs & more
+
+See [passulo.com](https://www.passulo.com) for more information.
