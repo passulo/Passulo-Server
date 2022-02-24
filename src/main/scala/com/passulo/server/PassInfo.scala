@@ -1,5 +1,6 @@
 package com.passulo.server
 import com.passulo.token.Token
+import com.passulo.token.Token.Gender
 
 import java.nio.charset.StandardCharsets
 import java.time.{Instant, LocalDate, ZoneOffset}
@@ -46,7 +47,12 @@ object PassInfo {
       firstName = token.firstName,
       middleName = token.middleName,
       lastName = token.lastName,
-      gender = token.gender,
+      gender = token.gender match {
+        case Gender.female  => "f"
+        case Gender.male    => "m"
+        case Gender.diverse => "d"
+        case _              => ""
+      },
       association = token.association,
       number = token.number,
       status = token.status,

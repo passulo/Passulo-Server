@@ -5,13 +5,16 @@
 
 package com.passulo.token
 
+/** @param id
+  *   identifier for this token only
+  */
 @SerialVersionUID(0L)
 final case class Token(
     id: _root_.scala.Predef.String = "",
     firstName: _root_.scala.Predef.String = "",
     middleName: _root_.scala.Predef.String = "",
     lastName: _root_.scala.Predef.String = "",
-    gender: _root_.scala.Predef.String = "",
+    gender: com.passulo.token.Token.Gender = com.passulo.token.Token.Gender.undefined,
     number: _root_.scala.Predef.String = "",
     status: _root_.scala.Predef.String = "",
     company: _root_.scala.Predef.String = "",
@@ -56,9 +59,9 @@ final case class Token(
       };
       
       {
-        val __value = gender
-        if (!__value.isEmpty) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(5, __value)
+        val __value = gender.value
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value)
         }
       };
       
@@ -149,9 +152,9 @@ final case class Token(
         }
       };
       {
-        val __v = gender
-        if (!__v.isEmpty) {
-          _output__.writeString(5, __v)
+        val __v = gender.value
+        if (__v != 0) {
+          _output__.writeEnum(5, __v)
         }
       };
       {
@@ -208,7 +211,7 @@ final case class Token(
     def withFirstName(__v: _root_.scala.Predef.String): Token = copy(firstName = __v)
     def withMiddleName(__v: _root_.scala.Predef.String): Token = copy(middleName = __v)
     def withLastName(__v: _root_.scala.Predef.String): Token = copy(lastName = __v)
-    def withGender(__v: _root_.scala.Predef.String): Token = copy(gender = __v)
+    def withGender(__v: com.passulo.token.Token.Gender): Token = copy(gender = __v)
     def withNumber(__v: _root_.scala.Predef.String): Token = copy(number = __v)
     def withStatus(__v: _root_.scala.Predef.String): Token = copy(status = __v)
     def withCompany(__v: _root_.scala.Predef.String): Token = copy(company = __v)
@@ -242,8 +245,8 @@ final case class Token(
           if (__t != "") __t else null
         }
         case 5 => {
-          val __t = gender
-          if (__t != "") __t else null
+          val __t = gender.javaValueDescriptor
+          if (__t.getNumber() != 0) __t else null
         }
         case 6 => {
           val __t = number
@@ -280,7 +283,7 @@ final case class Token(
         case 2 => _root_.scalapb.descriptors.PString(firstName)
         case 3 => _root_.scalapb.descriptors.PString(middleName)
         case 4 => _root_.scalapb.descriptors.PString(lastName)
-        case 5 => _root_.scalapb.descriptors.PString(gender)
+        case 5 => _root_.scalapb.descriptors.PEnum(gender.scalaValueDescriptor)
         case 6 => _root_.scalapb.descriptors.PString(number)
         case 7 => _root_.scalapb.descriptors.PString(status)
         case 8 => _root_.scalapb.descriptors.PString(company)
@@ -303,7 +306,7 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
     var __firstName: _root_.scala.Predef.String = ""
     var __middleName: _root_.scala.Predef.String = ""
     var __lastName: _root_.scala.Predef.String = ""
-    var __gender: _root_.scala.Predef.String = ""
+    var __gender: com.passulo.token.Token.Gender = com.passulo.token.Token.Gender.undefined
     var __number: _root_.scala.Predef.String = ""
     var __status: _root_.scala.Predef.String = ""
     var __company: _root_.scala.Predef.String = ""
@@ -326,8 +329,8 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
           __middleName = _input__.readStringRequireUtf8()
         case 34 =>
           __lastName = _input__.readStringRequireUtf8()
-        case 42 =>
-          __gender = _input__.readStringRequireUtf8()
+        case 40 =>
+          __gender = com.passulo.token.Token.Gender.fromValue(_input__.readEnum())
         case 50 =>
           __number = _input__.readStringRequireUtf8()
         case 58 =>
@@ -376,7 +379,7 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
         firstName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         middleName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         lastName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        gender = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        gender = com.passulo.token.Token.Gender.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.passulo.token.Token.Gender.undefined.scalaValueDescriptor).number),
         number = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         status = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         company = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
@@ -399,13 +402,17 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
     __out
   }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
+    (__fieldNumber: @_root_.scala.unchecked) match {
+      case 5 => com.passulo.token.Token.Gender
+    }
+  }
   lazy val defaultInstance = com.passulo.token.Token(
     id = "",
     firstName = "",
     middleName = "",
     lastName = "",
-    gender = "",
+    gender = com.passulo.token.Token.Gender.undefined,
     number = "",
     status = "",
     company = "",
@@ -415,12 +422,67 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
     validUntil = _root_.scala.None,
     memberSince = _root_.scala.None
   )
+  sealed abstract class Gender(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
+    type EnumType = Gender
+    def isundefined: _root_.scala.Boolean = false
+    def isfemale: _root_.scala.Boolean = false
+    def ismale: _root_.scala.Boolean = false
+    def isdiverse: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Gender] = com.passulo.token.Token.Gender
+    final def asRecognized: _root_.scala.Option[com.passulo.token.Token.Gender.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.passulo.token.Token.Gender.Recognized])
+  }
+  
+  object Gender extends _root_.scalapb.GeneratedEnumCompanion[Gender] {
+    sealed trait Recognized extends Gender
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Gender] = this
+    
+    @SerialVersionUID(0L)
+    case object undefined extends Gender(0) with Gender.Recognized {
+      val index = 0
+      val name = "undefined"
+      override def isundefined: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object female extends Gender(1) with Gender.Recognized {
+      val index = 1
+      val name = "female"
+      override def isfemale: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object male extends Gender(2) with Gender.Recognized {
+      val index = 2
+      val name = "male"
+      override def ismale: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object diverse extends Gender(3) with Gender.Recognized {
+      val index = 3
+      val name = "diverse"
+      override def isdiverse: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Gender(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    lazy val values = scala.collection.immutable.Seq(undefined, female, male, diverse)
+    def fromValue(__value: _root_.scala.Int): Gender = __value match {
+      case 0 => undefined
+      case 1 => female
+      case 2 => male
+      case 3 => diverse
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.passulo.token.Token.javaDescriptor.getEnumTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.passulo.token.Token.scalaDescriptor.enums(0)
+  }
   implicit class TokenLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.passulo.token.Token]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.passulo.token.Token](_l) {
     def id: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.id)((c_, f_) => c_.copy(id = f_))
     def firstName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.firstName)((c_, f_) => c_.copy(firstName = f_))
     def middleName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.middleName)((c_, f_) => c_.copy(middleName = f_))
     def lastName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.lastName)((c_, f_) => c_.copy(lastName = f_))
-    def gender: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.gender)((c_, f_) => c_.copy(gender = f_))
+    def gender: _root_.scalapb.lenses.Lens[UpperPB, com.passulo.token.Token.Gender] = field(_.gender)((c_, f_) => c_.copy(gender = f_))
     def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.number)((c_, f_) => c_.copy(number = f_))
     def status: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.status)((c_, f_) => c_.copy(status = f_))
     def company: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.company)((c_, f_) => c_.copy(company = f_))
@@ -450,7 +512,7 @@ object Token extends scalapb.GeneratedMessageCompanion[com.passulo.token.Token] 
     firstName: _root_.scala.Predef.String,
     middleName: _root_.scala.Predef.String,
     lastName: _root_.scala.Predef.String,
-    gender: _root_.scala.Predef.String,
+    gender: com.passulo.token.Token.Gender,
     number: _root_.scala.Predef.String,
     status: _root_.scala.Predef.String,
     company: _root_.scala.Predef.String,
