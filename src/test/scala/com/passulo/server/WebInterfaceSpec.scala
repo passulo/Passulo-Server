@@ -15,7 +15,7 @@ import scala.concurrent.duration.DurationInt
 class WebInterfaceSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with OptionValues {
 
   val logic: Logic = new Logic()
-  val database = new PassuloDB()
+  val database     = new PassuloDB()
 
   val routes: Route = new ServerRoutes(logic, database).routes
 

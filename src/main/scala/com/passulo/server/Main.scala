@@ -33,7 +33,6 @@ object Main extends StrictLogging {
 
   def main(args: Array[String]): Unit = {
     val rootBehavior = Behaviors.setup[Nothing] { context =>
-
       val database = new PassuloDB()
       database.init
 
