@@ -4,6 +4,7 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
+import com.passulo.server.database.PassuloDB
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.duration.*
@@ -32,10 +33,14 @@ object Main extends StrictLogging {
 
   def main(args: Array[String]): Unit = {
     val rootBehavior = Behaviors.setup[Nothing] { context =>
+
+      val database = new PassuloDB()
+      database.init
+
       val logic = new Logic()
 
       // Create routes
-      val routes: ServerRoutes = new ServerRoutes(logic)
+      val routes: ServerRoutes = new ServerRoutes(logic, database)
 
       // Load Keys
       val keys = Keys.shared.allKeys

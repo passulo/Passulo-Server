@@ -4,6 +4,7 @@ import com.passulo.token.Token
 import com.typesafe.scalalogging.StrictLogging
 
 import java.security.Signature
+import java.security.interfaces.EdECPublicKey
 import java.util.Base64
 import scala.util.{Success, Try}
 
@@ -25,21 +26,35 @@ class Logic() extends StrictLogging {
 
   def verifyToken(token: String, signatureBase64: String, keyid: String, association: String): Either[VerificationError, Success.type] =
     for {
-      _ <- verifySignature(token, signatureBase64, keyid)
+      _ <- verify(token, signatureBase64, keyid)
       _ <- verifyAssociation(association, keyid)
     } yield Success
 
-  private def verifySignature(token: String, signatureBase64: String, keyid: String): Either[VerificationError, Success.type] =
+  def verify(messageBase64: String, signatureBase64: String, keyid: String): Either[VerificationError, Success.type] =
     for {
-      publicKey      <- Keys.shared.edECPublicKeyForId(keyid).toRight(KeyNotFound())
-      signature       = Signature.getInstance("Ed25519")
-      _               = signature.initVerify(publicKey)
-      tokenDecoded   <- Try(Base64.getUrlDecoder.decode(token)).toOption.toRight(DecodingTokenFailed())
-      _               = signature.update(tokenDecoded)
+      publicKey <- Keys.shared.edECPublicKeyForId(keyid).toRight(KeyNotFound())
+      valid     <- verify(messageBase64, signatureBase64, publicKey)
+    } yield valid
+
+  def verify(messageBase64: String, signatureBase64: String, publicKey: EdECPublicKey): Either[VerificationError, Success.type] =
+    for {
+      msgDecoded <- Try(Base64.getUrlDecoder.decode(messageBase64)).toOption.toRight(DecodingTokenFailed())
+      valid      <- verify(msgDecoded, signatureBase64, publicKey)
+    } yield valid
+
+  def verify(message: Array[Byte], signatureBase64: String, publicKey: EdECPublicKey): Either[VerificationError, Success.type] =
+    for {
       sigDecoded     <- Try(Base64.getUrlDecoder.decode(signatureBase64)).toOption.toRight(DecodingSignatureFailed())
-      signatureValid <- Try(signature.verify(sigDecoded)).toOption.toRight(DecodingSignatureFailed())
+      signatureValid <- Try(verify(message, sigDecoded, publicKey)).toOption.toRight(DecodingSignatureFailed())
       valid          <- Either.cond(signatureValid, Success, InvalidSignature())
     } yield valid
+
+  private def verify(message: Array[Byte], sig: Array[Byte], publicKey: EdECPublicKey): Boolean = {
+    val signature = Signature.getInstance("Ed25519")
+    signature.initVerify(publicKey)
+    signature.update(message)
+    signature.verify(sig)
+  }
 
   private def verifyAssociation(association: String, keyid: String): Either[VerificationError, Success.type] =
     for {

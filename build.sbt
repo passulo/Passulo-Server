@@ -11,7 +11,7 @@ lazy val root = (project in file("."))
     version              := "1.0.0",
     scalaVersion         := "2.13.8",
     scalacOptions        := scalaCompilerOptions,
-    libraryDependencies ++= applicationDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies,
+    libraryDependencies ++= applicationDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies ++ databaseDependencies,
     exportJars                := true,
     TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
@@ -45,7 +45,8 @@ lazy val jsonDependencies = Seq(
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest"     % "3.2.11" % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.0" % Test
+  "org.mockito"   %% "mockito-scala" % "1.17.0" % Test,
+  "com.h2database" % "h2" % "1.4.197" % Test,
 )
 
 lazy val log4JVersion = "2.17.1"
@@ -57,6 +58,14 @@ lazy val loggingDependencies = Seq(
   "org.apache.logging.log4j"    % "log4j-core"       % log4JVersion,
   "org.apache.logging.log4j"    % "log4j-slf4j-impl" % log4JVersion % "runtime",
   "com.lmax"                    % "disruptor"        % "3.4.4"      % "runtime"
+)
+
+lazy val databaseDependencies = Seq(
+  "com.typesafe.slick"  %% "slick"               % "3.3.3",
+  "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
+  "com.github.tminglei" %% "slick-pg"            % "0.20.2",
+  "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.2",
+  "org.postgresql"       % "postgresql"          % "42.3.2"
 )
 
 lazy val scalaCompilerOptions = Seq(

@@ -4,6 +4,7 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.stream.scaladsl.Sink
+import com.passulo.server.database.PassuloDB
 import org.scalatest.OptionValues
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -14,8 +15,9 @@ import scala.concurrent.duration.DurationInt
 class WebInterfaceSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with OptionValues {
 
   val logic: Logic = new Logic()
+  val database = new PassuloDB()
 
-  val routes: Route = new ServerRoutes(logic).routes
+  val routes: Route = new ServerRoutes(logic, database).routes
 
   val validToken =
     "CghsMU9GVGp1QhIESm9obhoCRi4iCUFwcGxlc2VlZCgCMgYxMjM0NTY6BlBsYXRpbkIQRGV1dHNjaGUgVGVsZWtvbUoWai5hcHBsZXNlZWRAdGVsZWtvbS5kZVIQKzQ5IDQwIDEyMzQ1My0xMloMSGFtYnVyZ0BXb3JrYgYI_5nDnQZqBgj_q4DkAw=="
