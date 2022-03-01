@@ -44,12 +44,12 @@ lazy val jsonDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest"     % "3.2.11" % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.0" % Test,
-  "com.h2database" % "h2" % "1.4.197" % Test,
+  "org.scalatest" %% "scalatest"     % "3.2.11"  % Test,
+  "org.mockito"   %% "mockito-scala" % "1.17.0"  % Test,
+  "com.h2database" % "h2"            % "1.4.197" % Test
 )
 
-lazy val log4JVersion = "2.17.1"
+lazy val log4JVersion = "2.17.2"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
