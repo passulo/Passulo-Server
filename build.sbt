@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.8",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.9",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
@@ -44,9 +44,9 @@ lazy val jsonDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest"     % "3.2.11" % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.0" % Test,
-  "com.h2database" % "h2" % "1.4.197" % Test,
+  "org.scalatest" %% "scalatest"     % "3.2.11"  % Test,
+  "org.mockito"   %% "mockito-scala" % "1.17.0"  % Test,
+  "com.h2database" % "h2"            % "1.4.197" % Test
 )
 
 lazy val log4JVersion = "2.17.1"
