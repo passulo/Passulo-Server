@@ -67,7 +67,7 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
           } ~ path("assets" / Remaining) { file =>
             getFromResource("assets/" + file)
           } ~ pathPrefix("v1") {
-            path("register-key") {
+            path("key" / "register") {
               pathEndOrSingleSlash {
                 post {
                   entity(as[RegisterKey]) { request =>
@@ -97,13 +97,13 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
                     )
                   }
               }
-            }
-            path("key" / Segment) { id: String =>
-              Keys.shared.publicKeyForId(id) match {
-                case Some(key) => complete(key.asJson)
-                case None      => complete(StatusCodes.NotFound)
-              }
             } ~
+              path("key" / Segment) { id: String =>
+                Keys.shared.publicKeyForId(id) match {
+                  case Some(key) => complete(key.asJson)
+                  case None      => complete(StatusCodes.NotFound)
+                }
+              } ~
               path("keys") {
                 complete(Keys.shared.allKeys.asJson)
               } ~
