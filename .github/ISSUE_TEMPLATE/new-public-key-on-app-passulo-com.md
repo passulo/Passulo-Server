@@ -2,7 +2,7 @@
 name: New Public Key on app.passulo.com
 about: Request your public key to be added to app.passulo.com
 title: New Public Key for `<name of your assiciation>`
-labels: ''
+labels: new-public-key
 assignees: JannikArndt
 
 ---
