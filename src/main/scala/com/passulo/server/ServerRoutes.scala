@@ -67,7 +67,7 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
           } ~ path("assets" / Remaining) { file =>
             getFromResource("assets/" + file)
           } ~ pathPrefix("v1") {
-            path("key" / "register") {
+            path("register-key") {
               pathEndOrSingleSlash {
                 post {
                   entity(as[RegisterKey]) { request =>
