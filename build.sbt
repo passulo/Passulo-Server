@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.8",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.9",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
@@ -49,7 +49,7 @@ lazy val testDependencies = Seq(
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.17.1"
+lazy val log4JVersion = "2.17.2"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
