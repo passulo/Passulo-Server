@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.directives.ContentTypeResolver
 import akka.http.scaladsl.server.{Directives, ExceptionHandler, RejectionHandler, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
-import com.passulo.server.ServerRoutes.SignedPassId
+import com.passulo.server.ServerRoutes.{RegisterKey, SignedPassId}
 import com.passulo.server.database.PassuloDB
 import com.typesafe.scalalogging.*
 import io.circe.generic.auto.*
@@ -14,11 +14,13 @@ import io.circe.syntax.*
 import org.postgresql.util.PSQLException
 import play.twirl.api.Html
 
+import java.net.{URI, URLEncoder}
 import java.nio.charset.StandardCharsets
 import scala.util.{Failure, Success}
 
 object ServerRoutes {
   case class SignedPassId(passId: String, keyId: String, signature: String)
+  case class RegisterKey(keyId: String, association: String, key: String)
 }
 
 class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with StrictLogging {
@@ -65,12 +67,43 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
           } ~ path("assets" / Remaining) { file =>
             getFromResource("assets/" + file)
           } ~ pathPrefix("v1") {
-            path("key" / Segment) { id: String =>
-              Keys.shared.publicKeyForId(id) match {
-                case Some(key) => complete(key.asJson)
-                case None      => complete(StatusCodes.NotFound)
+            path("key" / "register") {
+              pathEndOrSingleSlash {
+                post {
+                  entity(as[RegisterKey]) { request =>
+                    val baseURI  = URI.create(s"https://github.com/passulo/Passulo-Server/issues/new")
+                    val template = "?template=new-public-key-on-app-passulo-com.md"
+                    val assignee = "&assignees=JannikArndt"
+                    val labels   = "&labels=new-public-key"
+                    val title    = "&title=" + URLEncoder.encode(s"New Public Key for `${request.association}`", StandardCharsets.UTF_8)
+                    val body = "&body=" + URLEncoder.encode(
+                      s"""My Key-ID: `${request.keyId}`
+                         |My key:
+                         |```
+                         |${request.key}
+                         |```
+                         |My association: `${request.association}`
+                         |
+                         |I can verify my identity in the following way: <please enter description>""".stripMargin,
+                      StandardCharsets.UTF_8
+                    )
+                    val url = baseURI.toURL.toString + template + assignee + labels + title + body
+                    complete(url)
+                  }
+                } ~
+                  get {
+                    complete(
+                      "This server-instance uses GitHub Issues to add new public keys: https://github.com/passulo/Passulo-Server/issues/new"
+                    )
+                  }
               }
             } ~
+              path("key" / Segment) { id: String =>
+                Keys.shared.publicKeyForId(id) match {
+                  case Some(key) => complete(key.asJson)
+                  case None      => complete(StatusCodes.NotFound)
+                }
+              } ~
               path("keys") {
                 complete(Keys.shared.allKeys.asJson)
               } ~
