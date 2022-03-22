@@ -22,7 +22,7 @@ lazy val applicationDependencies = Seq(
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
-val akkaVersion     = "2.6.18"
+val akkaVersion     = "2.6.19"
 val akkaHttpVersion = "10.2.8"
 
 lazy val akkaDependencies = Seq(
