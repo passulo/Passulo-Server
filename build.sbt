@@ -18,12 +18,12 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.9",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.10",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
-val akkaVersion     = "2.6.18"
-val akkaHttpVersion = "10.2.9"
+val akkaVersion     = "2.6.19"
+val akkaHttpVersion = "10.2.8"
 
 lazy val akkaDependencies = Seq(
   "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
