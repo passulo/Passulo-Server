@@ -55,7 +55,7 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
                     }
                 }
               } ~ pathEndOrSingleSlash {
-                complete("Welcome")
+                complete(html.welcome(Keys.shared.allKeys))
               }
             }
           } ~ pathPrefix(".well-known") {

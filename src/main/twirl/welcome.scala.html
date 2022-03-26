@@ -1,0 +1,38 @@
+@import com.passulo.server.Keys
+@import html.styles
+
+@(keys: Seq[Keys.Key])
+
+<!-- https://www.playframework.com/documentation/2.8.x/ScalaTemplates -->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Passulo Server</title>
+        @styles()
+        </head>
+
+    <body>
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down" role="document">
+                <div class="modal-content rounded-6 shadow">
+                    <div class="modal-body p-5">
+                        <h2 class="fw-bold mb-0"><img src="/assets/logo.png" class="logo">Passulo Server</h2>
+
+                        <ul class="d-grid gap-4 my-4 list-unstyled">
+                            <li class="d-flex gap-4">
+                               <strong>Welcome to this Passulo Server Instance!</strong>
+                            </li>
+                            <li class="gap-4">
+                                <div>
+                                    This instance is managed at <a href="https://github.com/passulo/Passulo-Server">github.com/passulo/Passulo-Server</a>.<br>
+                                    It currently contains @(keys.size) keys.<br>
+                                    To find out more about Passulo, visit <a href="https://www.passulo.com">passulo.com</a>!
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>
