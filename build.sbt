@@ -65,7 +65,7 @@ lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
   "com.github.tminglei" %% "slick-pg"            % "0.20.2",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.2",
-  "org.postgresql"       % "postgresql"          % "42.3.2"
+  "org.postgresql"       % "postgresql"          % "42.3.3"
 )
 
 lazy val scalaCompilerOptions = Seq(
