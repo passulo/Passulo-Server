@@ -3,7 +3,7 @@ package com.passulo.server
 import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.passulo.server.ServerRoutes.SignedPassId
+import com.passulo.server.ServerRoutes.{RegisterKey, SignedPassId}
 import com.passulo.server.database.PassuloDB
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport.*
 import io.circe.Json
@@ -40,19 +40,10 @@ class ApiV1Spec extends AnyWordSpec with ScalatestRouteTest with Matchers with O
       Get("/v1/keys") ~> routes ~> check {
         status shouldEqual StatusCodes.OK
         contentType shouldBe ContentTypes.`application/json`
-        entityAs[Json] shouldEqual jsonStructure("""[
-                                                   |  {
-                                                   |    "keyId": "hhatworkv1",
-                                                   |    "publicKey": "MCowBQYDK2VwAyEAJuHkcaByMosGmA5LJfoSbkPaJ/YZ4eICEsDwwLRtN+I=",
-                                                   |    "allowedAssociations": ["Hamburg@Work"]
-                                                   |  },
-                                                   |  {
-                                                   |    "keyId": "passuloTest",
-                                                   |    "publicKey": "MCowBQYDK2VwAyEAJuHkcaByMosGmA5LJfoSbkPaJ/YZ4eICEsDwwLRtN+I=",
-                                                   |    "allowedAssociations": ["Passulo"]
-                                                   |  }
-                                                   |]""".stripMargin)
-
+        entityAs[Json].toString() should include("passuloTest")
+        entityAs[Json].toString() should include("Passulo")
+        entityAs[Json].toString() should include("allowedAssociations")
+        entityAs[Json].toString() should include("publicKey")
       }
     }
 
@@ -130,6 +121,23 @@ class ApiV1Spec extends AnyWordSpec with ScalatestRouteTest with Matchers with O
       }
     }
 
+    "answer how to register a new public key" in {
+      val payload = RegisterKey(
+        "passuloTest",
+        "Passulo Group",
+        "DpN2hVYdix_dYTvU7sB0gSea-KACkIm18_TE2LQBe7kBCeVQuwVU_hcOwkcsKz3eW5vBqLmOlAqC_qLccMx9Dw=="
+      )
+
+      Post("/v1/key/register", payload) ~> routes ~> check {
+        status shouldEqual StatusCodes.OK
+        entityAs[String] should include("http")
+      }
+
+      Get("/v1/key/register") ~> routes ~> check {
+        status shouldEqual StatusCodes.OK
+        entityAs[String] should include("GitHub")
+      }
+    }
   }
 
   def jsonStructure(jsonString: String): Json = io.circe.parser.parse(jsonString) match {

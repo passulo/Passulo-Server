@@ -18,3 +18,11 @@
 .modal-tour .modal-dialog {
     width: 380px;
 }
+
+.logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 20%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}

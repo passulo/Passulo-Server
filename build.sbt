@@ -18,11 +18,11 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.8",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.10",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
-val akkaVersion     = "2.6.18"
+val akkaVersion     = "2.6.19"
 val akkaHttpVersion = "10.2.8"
 
 lazy val akkaDependencies = Seq(
@@ -44,12 +44,12 @@ lazy val jsonDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest"     % "3.2.11"  % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.5"  % Test,
+  "org.scalatest" %% "scalatest"     % "3.2.12"  % Test,
+  "org.mockito"   %% "mockito-scala" % "1.17.0"  % Test,
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.17.1"
+lazy val log4JVersion = "2.17.2"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
@@ -63,9 +63,9 @@ lazy val loggingDependencies = Seq(
 lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick"               % "3.3.3",
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
-  "com.github.tminglei" %% "slick-pg"            % "0.20.2",
-  "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.2",
-  "org.postgresql"       % "postgresql"          % "42.3.2"
+  "com.github.tminglei" %% "slick-pg"            % "0.20.3",
+  "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.3",
+  "org.postgresql"       % "postgresql"          % "42.3.4"
 )
 
 lazy val scalaCompilerOptions = Seq(
