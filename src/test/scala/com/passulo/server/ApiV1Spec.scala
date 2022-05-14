@@ -14,8 +14,8 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class ApiV1Spec extends AnyWordSpec with ScalatestRouteTest with Matchers with OptionValues {
 
-  val logic: Logic = new Logic()
-  val database     = new PassuloDB()
+  val logic: Logic = new Logic
+  val database     = new PassuloDB
   database.init
 
   val routes: Route = new ServerRoutes(logic, database).routes
