@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.10",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.11",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
 )
 
@@ -34,7 +34,7 @@ lazy val akkaDependencies = Seq(
   "ch.megard"         %% "akka-http-cors"           % "1.1.3"
 )
 
-val circeVersion = "0.14.1"
+val circeVersion = "0.14.2"
 
 lazy val jsonDependencies = Seq(
   "io.circe"          %% "circe-core"      % circeVersion,
@@ -45,15 +45,15 @@ lazy val jsonDependencies = Seq(
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest"     % "3.2.12"  % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.5"  % Test,
-  "com.h2database" % "h2"            % "2.1.212" % Test
+  "org.mockito"   %% "mockito-scala" % "1.17.7"  % Test,
+  "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
 lazy val log4JVersion = "2.17.2"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
-  "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.4",
+  "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.5",
   "org.apache.logging.log4j"    % "log4j-api"        % log4JVersion,
   "org.apache.logging.log4j"    % "log4j-core"       % log4JVersion,
   "org.apache.logging.log4j"    % "log4j-slf4j-impl" % log4JVersion % "runtime",
@@ -65,7 +65,7 @@ lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
   "com.github.tminglei" %% "slick-pg"            % "0.20.3",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.3",
-  "org.postgresql"       % "postgresql"          % "42.3.4"
+  "org.postgresql"       % "postgresql"          % "42.3.6"
 )
 
 lazy val scalaCompilerOptions = Seq(
