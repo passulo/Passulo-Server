@@ -23,7 +23,7 @@ lazy val applicationDependencies = Seq(
 )
 
 val akkaVersion     = "2.6.19"
-val akkaHttpVersion = "10.2.8"
+val akkaHttpVersion = "10.2.9"
 
 lazy val akkaDependencies = Seq(
   "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
