@@ -44,12 +44,12 @@ lazy val jsonDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest"     % "3.2.12"  % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.7"  % Test,
+  "org.scalatest" %% "scalatest"     % "3.2.13"  % Test,
+  "org.mockito"   %% "mockito-scala" % "1.17.12" % Test,
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.17.2"
+lazy val log4JVersion = "2.18.0"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
@@ -65,7 +65,7 @@ lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
   "com.github.tminglei" %% "slick-pg"            % "0.20.3",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.3",
-  "org.postgresql"       % "postgresql"          % "42.4.0"
+  "org.postgresql"       % "postgresql"          % "42.4.1"
 )
 
 lazy val scalaCompilerOptions = Seq(
