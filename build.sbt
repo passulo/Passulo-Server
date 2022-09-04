@@ -15,7 +15,7 @@ lazy val root = (project in file("."))
     exportJars                := true,
     TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
-  .enablePlugins(JavaAppPackaging, SbtTwirl)
+  .enablePlugins(JavaAppPackaging, DockerPlugin, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
   "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.13",
