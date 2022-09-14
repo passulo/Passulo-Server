@@ -61,8 +61,8 @@ lazy val loggingDependencies = Seq(
 )
 
 lazy val databaseDependencies = Seq(
-  "com.typesafe.slick"  %% "slick"               % "3.3.3",
-  "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
+  "com.typesafe.slick"  %% "slick"               % "3.4.1",
+  "com.typesafe.slick"  %% "slick-hikaricp"      % "3.4.1",
   "com.github.tminglei" %% "slick-pg"            % "0.20.4",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.4",
   "org.postgresql"       % "postgresql"          % "42.5.0"
