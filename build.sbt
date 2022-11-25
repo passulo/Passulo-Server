@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
     scmInfo              := Some(ScmInfo(url("https://github.com/passulo/Passulo-Server"), "git@github.com:passulo/Passulo-Server.git")),
     developers           := List(Developer("jannikarndt", "Jannik Arndt", "@jannikarndt", url("https://github.com/JannikArndt"))),
     version              := "1.0.0",
-    scalaVersion         := "2.13.8",
+    scalaVersion         := "2.13.10",
     scalacOptions        := scalaCompilerOptions,
     libraryDependencies ++= applicationDependencies ++ akkaDependencies ++ jsonDependencies ++ testDependencies ++ loggingDependencies ++ databaseDependencies,
     exportJars                := true,
@@ -18,12 +18,12 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.11",
-  "com.github.pureconfig" %% "pureconfig"      % "0.17.1"
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.12",
+  "com.github.pureconfig" %% "pureconfig"      % "0.17.2"
 )
 
-val akkaVersion     = "2.6.19"
-val akkaHttpVersion = "10.2.8"
+val akkaVersion     = "2.6.20"
+val akkaHttpVersion = "10.2.10"
 
 lazy val akkaDependencies = Seq(
   "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
@@ -44,12 +44,12 @@ lazy val jsonDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest"     % "3.2.13"  % Test,
+  "org.scalatest" %% "scalatest"     % "3.2.14"  % Test,
   "org.mockito"   %% "mockito-scala" % "1.17.12" % Test,
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.18.0"
+lazy val log4JVersion = "2.19.0"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
@@ -65,7 +65,7 @@ lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
   "com.github.tminglei" %% "slick-pg"            % "0.20.4",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.4",
-  "org.postgresql"       % "postgresql"          % "42.5.0"
+  "org.postgresql"       % "postgresql"          % "42.5.1"
 )
 
 lazy val scalaCompilerOptions = Seq(
