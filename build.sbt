@@ -34,7 +34,7 @@ lazy val akkaDependencies = Seq(
   "ch.megard"         %% "akka-http-cors"           % "1.1.3"
 )
 
-val circeVersion = "0.14.2"
+val circeVersion = "0.14.4"
 
 lazy val jsonDependencies = Seq(
   "io.circe"          %% "circe-core"      % circeVersion,
