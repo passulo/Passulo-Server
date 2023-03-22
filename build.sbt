@@ -46,7 +46,7 @@ lazy val jsonDependencies = Seq(
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest"     % "3.2.13"  % Test,
   "org.mockito"   %% "mockito-scala" % "1.17.12" % Test,
-  "com.h2database" % "h2"            % "2.1.214" % Test
+  "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
 lazy val log4JVersion = "2.18.0"
