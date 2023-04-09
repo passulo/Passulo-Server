@@ -1,5 +1,5 @@
 // adds reStart and reStop
-addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1")
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.10.0")
 
 // adds scalafmt
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
