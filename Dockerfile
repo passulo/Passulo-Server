@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle as stage0
+FROM openjdk:21-jdk as stage0
 WORKDIR /opt/docker
 COPY target/docker/stage/2/opt /2/opt
 COPY target/docker/stage/4/opt /4/opt
@@ -7,7 +7,12 @@ RUN ["chmod", "-R", "u=rX,g=rX", "/2/opt/docker"]
 RUN ["chmod", "-R", "u=rX,g=rX", "/4/opt/docker"]
 RUN ["chmod", "u+x,g+x", "/4/opt/docker/bin/passulo-server"]
 
-FROM openjdk:17-oracle as mainstage
+FROM openjdk:21-jdk as mainstage
+
+LABEL org.opencontainers.image.source https://github.com/passulo/Passulo-Server
+LABEL org.opencontainers.image.url http://www.passulo.com
+LABEL name="Passulo Server"
+LABEL email="mail@passulo.com"
 
 USER root
 
