@@ -19,6 +19,18 @@
 
 For the public Passulo instance, this server is deployed at [app.passulo.com](https://app.passulo.com).
 
+## Build
+
+To build, run
+
+```shell
+sbt docker:stage
+docker build . -t ghcr.io/passulo/passulo-server:latest --platform linux/amd64
+docker push ghcr.io/passulo/passulo-server:latest
+````
+
+Docker image at https://github.com/orgs/passulo/packages/container/package/passulo-server
+
 ## Docs & more
 
 See [passulo.com](https://www.passulo.com) for more information.

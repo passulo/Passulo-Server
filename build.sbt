@@ -15,7 +15,7 @@ lazy val root = (project in file("."))
     exportJars                := true,
     TwirlKeys.templateImports := Seq() // https://github.com/playframework/twirl/issues/105
   )
-  .enablePlugins(JavaAppPackaging, SbtTwirl)
+  .enablePlugins(JavaAppPackaging, DockerPlugin, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
   "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.13",
@@ -45,11 +45,11 @@ lazy val jsonDependencies = Seq(
 
 lazy val testDependencies = Seq(
   "org.scalatest" %% "scalatest"     % "3.2.17"  % Test,
-  "org.mockito"   %% "mockito-scala" % "1.17.29" % Test,
+  "org.mockito"   %% "mockito-scala" % "1.17.30" % Test,
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.21.1"
+lazy val log4JVersion = "2.22.0"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
@@ -65,7 +65,7 @@ lazy val databaseDependencies = Seq(
   "com.typesafe.slick"  %% "slick-hikaricp"      % "3.3.3",
   "com.github.tminglei" %% "slick-pg"            % "0.20.4",
   "com.github.tminglei" %% "slick-pg_circe-json" % "0.20.4",
-  "org.postgresql"       % "postgresql"          % "42.6.0"
+  "org.postgresql"       % "postgresql"          % "42.7.0"
 )
 
 lazy val scalaCompilerOptions = Seq(
