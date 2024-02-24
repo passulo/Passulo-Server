@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, DockerPlugin, SbtTwirl)
 
 lazy val applicationDependencies = Seq(
-  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.13",
+  "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.15",
   "com.github.pureconfig" %% "pureconfig"      % "0.17.6"
 )
 
