@@ -7,7 +7,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 // Enable several package formats, especially docker.
 // sbt> docker:publishLocal
 // sbt> docker:publish
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.8")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.16")
 
 // https://github.com/playframework/twirl#sbt-twirl
 addSbtPlugin("com.typesafe.play" % "sbt-twirl" % "1.6.5")
