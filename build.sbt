@@ -19,7 +19,7 @@ lazy val root = (project in file("."))
 
 lazy val applicationDependencies = Seq(
   "com.thesamet.scalapb"  %% "scalapb-runtime" % "0.11.13",
-  "com.github.pureconfig" %% "pureconfig"      % "0.17.6"
+  "com.github.pureconfig" %% "pureconfig"      % "0.17.7"
 )
 
 val akkaVersion     = "2.6.20"
