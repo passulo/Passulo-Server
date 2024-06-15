@@ -160,7 +160,7 @@ class ServerRoutes(val logic: Logic, db: PassuloDB) extends Directives with Stri
                               onComplete(db.register(request.passId, request.keyId)) {
                                 case Success(1) => complete(StatusCodes.Created)
                                 case Success(_) => complete(StatusCodes.InternalServerError)
-                                case Failure(e: Exception)                                                       // untyped, because H2-classes are not in scope
+                                case Failure(e: Exception) // untyped, because H2-classes are not in scope
                                     if e.getMessage.contains("duplicate key value violates unique constraint") | // posrtgres
                                       e.getMessage.contains("Unique index or primary key violation") => // h2
                                   logger.info(s"Failed to register pass for ${request.keyId}, passId '${request.passId}' already exists.")
