@@ -49,7 +49,7 @@ lazy val testDependencies = Seq(
   "com.h2database" % "h2"            % "1.4.200" % Test
 )
 
-lazy val log4JVersion = "2.23.1"
+lazy val log4JVersion = "2.24.0"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
