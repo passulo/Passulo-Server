@@ -18,17 +18,15 @@ class MainSpec extends AnyWordSpec with ScalatestRouteTest with Matchers with Op
   val routes: Route = new ServerRoutes(logic, database).routes
 
   "Server" should {
-    "be reachable" in {
+    "be reachable" in
       Get("/") ~> routes ~> check {
         status shouldEqual StatusCodes.OK
       }
-    }
 
-    "serve Apple App Site Association with json-content-type" in {
+    "serve Apple App Site Association with json-content-type" in
       Get("/.well-known/apple-app-site-association") ~> routes ~> check {
         contentType shouldBe ContentTypes.`application/json`
         entityAs[Json].toString() should include("applinks")
       }
-    }
   }
 }

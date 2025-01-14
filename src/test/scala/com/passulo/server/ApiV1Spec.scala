@@ -21,22 +21,20 @@ class ApiV1Spec extends AnyWordSpec with ScalatestRouteTest with Matchers with O
   val routes: Route = new ServerRoutes(logic, database).routes
 
   "API V1" should {
-    "return a requested key" in {
+    "return a requested key" in
       Get("/v1/key/passuloTest") ~> routes ~> check {
         status shouldEqual StatusCodes.OK
         contentType shouldBe ContentTypes.`application/json`
         entityAs[String] shouldBe "MCowBQYDK2VwAyEAJuHkcaByMosGmA5LJfoSbkPaJ/YZ4eICEsDwwLRtN+I="
         entityAs[Json] shouldEqual jsonStructure(""""MCowBQYDK2VwAyEAJuHkcaByMosGmA5LJfoSbkPaJ/YZ4eICEsDwwLRtN+I="""") // include " !
       }
-    }
 
-    "return 404 for publicKeys if key-id isn't found" in {
+    "return 404 for publicKeys if key-id isn't found" in
       Get("/v1/key/fantasyland") ~> routes ~> check {
         status shouldEqual StatusCodes.NotFound
       }
-    }
 
-    "return keys" in {
+    "return keys" in
       Get("/v1/keys") ~> routes ~> check {
         status shouldEqual StatusCodes.OK
         contentType shouldBe ContentTypes.`application/json`
@@ -45,22 +43,19 @@ class ApiV1Spec extends AnyWordSpec with ScalatestRouteTest with Matchers with O
         entityAs[Json].toString() should include("allowedAssociations")
         entityAs[Json].toString() should include("publicKey")
       }
-    }
 
-    "return allowed-associations-for-key-id" in {
+    "return allowed-associations-for-key-id" in
       Get("/v1/allowed-associations-for-key-id/passuloTest") ~> routes ~> check {
         status shouldEqual StatusCodes.OK
         contentType shouldBe ContentTypes.`application/json`
         entityAs[Json] shouldEqual jsonStructure("""["Passulo"]""") // include " !
 
       }
-    }
 
-    "return 404 if key-id isn't found" in {
+    "return 404 if key-id isn't found" in
       Get("/v1/allowed-associations-for-key-id/fantasyland") ~> routes ~> check {
         status shouldEqual StatusCodes.NotFound
       }
-    }
 
     "return if a pass can be found, is valid or is not valid" in {
       val randomId = "testPassId" + System.currentTimeMillis()
