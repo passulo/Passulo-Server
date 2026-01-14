@@ -53,7 +53,7 @@ lazy val log4JVersion = "2.24.3"
 
 lazy val loggingDependencies = Seq(
   // scala-logging wraps SLF4J, which can use log4j2
-  "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.5",
+  "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.6",
   "org.apache.logging.log4j"    % "log4j-api"        % log4JVersion,
   "org.apache.logging.log4j"    % "log4j-core"       % log4JVersion,
   "org.apache.logging.log4j"    % "log4j-slf4j-impl" % log4JVersion % "runtime",
